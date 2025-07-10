@@ -1,7 +1,7 @@
 import click
 import datetime
-from .database import init_db, connect_db, delete_run, get_runs_by_date_range, get_run_by_id, update_run, get_monthly_summary
-from .stats import get_total_distance, get_total_time, get_average_pace, predict_performance, get_best_efforts
+from .stats import get_total_distance, get_total_time, get_average_pace, predict_performance, get_best_efforts, compare_runs
+from .database import init_db, connect_db, delete_run, get_runs_by_date_range, get_run_by_id, update_run, get_monthly_summary, get_last_two_runs
 from .pdf_generator import generate_run_report_pdf
 from .utils import convert_to_display_date, convert_to_db_date
 
@@ -336,6 +336,33 @@ def pdf(filename):
         click.echo(f"PDF report generated successfully: {generated_file}")
     except Exception as e:
         click.echo(f"Error generating PDF report: {e}")
+
+@cli.command()
+def compare():
+    """Compares the last two runs and shows the improvement."""
+    runs = get_last_two_runs()
+    if len(runs) < 2:
+        click.echo("Not enough runs to compare. At least two runs are required.")
+        return
+
+    last_run = runs[0]
+    second_last_run = runs[1]
+
+    improvement = compare_runs(last_run, second_last_run)
+
+    if improvement is None:
+        click.echo("Could not compare runs due to missing data.")
+        return
+
+    click.echo(f"Comparing last two runs:")
+    click.echo(f"  - Run on {convert_to_display_date(second_last_run['date'])}: Pace: {second_last_run['pace']:.2f} min/km")
+    click.echo(f"  - Run on {convert_to_display_date(last_run['date'])}: Pace: {last_run['pace']:.2f} min/km")
+
+    if improvement > 0:
+        click.echo(f"Improvement: {abs(improvement):.2f}% slower.")
+    else:
+        click.echo(f"Improvement: {abs(improvement):.2f}% faster.")
+
 
 if __name__ == '__main__':
     cli()

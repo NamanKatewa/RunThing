@@ -100,6 +100,10 @@ def get_last_n_runs(n):
         cursor.execute("SELECT id, date, distance, time, pace, notes FROM runs ORDER BY date DESC, id DESC LIMIT ?", (n,))
         return cursor.fetchall()
 
+def get_last_two_runs():
+    """Retrieves the last two runs from the database."""
+    return get_last_n_runs(2)
+
 if __name__ == '__main__':
     # This block is for testing the database initialization
     print(f"Initializing database at: {get_db_path()}")

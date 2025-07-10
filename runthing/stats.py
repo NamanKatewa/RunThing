@@ -89,3 +89,17 @@ def get_best_efforts():
         if run:
             best_efforts[dist] = run
     return best_efforts
+
+def compare_runs(run1, run2):
+    """Compares two runs and returns the percentage improvement in pace."""
+    if run1 is None or run2 is None:
+        return None
+
+    pace1 = run1['pace']
+    pace2 = run2['pace']
+
+    if pace1 == 0:
+        return None
+
+    improvement = ((pace2 - pace1) / pace1) * 100
+    return improvement

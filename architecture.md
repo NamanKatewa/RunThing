@@ -7,7 +7,7 @@ RunThing is a command-line interface (CLI) application designed to help runners 
 
 ### 1. CLI Interface (`cli.py`)
 -   Built using the `click` library for intuitive command-line parsing and user interaction.
--   Handles command-line arguments, options, and subcommands (e.g., `runthing log`, `runthing stats`, `runthing pdf`, `runthing predict`).
+-   Handles command-line arguments, options, and subcommands (e.g., `runthing log`, `runthing stats`, `runthing pdf`, `runthing predict`, `runthing compare`).
 -   Provides interactive prompts for input when arguments or options are not provided.
 -   Provides interactive prompts for input when arguments are not provided.
 -   Acts as the entry point for the application.
@@ -22,6 +22,7 @@ RunThing is a command-line interface (CLI) application designed to help runners 
     -   Filtering runs by date range.
     -   Retrieving monthly run summaries.
     -   Retrieving fastest runs for specific distances.
+    -   Retrieving the last two runs.
 
 ### 3. Data Models (`models.py`)
 -   Defines Python classes that represent the structure of a "Run" record.
@@ -41,6 +42,7 @@ RunThing is a command-line interface (CLI) application designed to help runners 
     -   Predicting performance for target distances.
     -   Summarizing monthly run data.
     -   Identifying best efforts for common distances.
+    -   Comparing two runs and calculating the percentage improvement in pace.
 -   Queries the database via the Data Management component.
 
 ### 6. PDF Generator (`pdf_generator.py`)
